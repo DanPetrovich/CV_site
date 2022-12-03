@@ -8,10 +8,7 @@ from django.views.generic import DetailView, CreateView
 
 from .models import *
 from .forms import *
-
-menu = [{'title': "О сайте", 'url_name': 'about'},
-        {'title': "Создать резюме", 'url_name': 'form'},
-        {'title': "Войти", 'url_name': 'login'}]
+from .utils import *
 
 
 def main_page(request):
@@ -36,7 +33,7 @@ def new_form(request):
 
 def after_form(request):
     return render(request, 'resume/after_form.html',
-                  {{'menu': menu, 'title': 'Поздравляем, Вы успешно зарегистрировались'}})
+                  {'menu': menu, 'title': 'Поздравляем, Вы успешно отослали нам свои данные'})
 
 
 def logout_user(request):
@@ -44,15 +41,30 @@ def logout_user(request):
     return redirect('home')
 
 
-class RegisterUser(CreateView):
+class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'resume/register.html'
     success_url = reverse_lazy('login')
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(c_def.items()))
 
-class LoginUser(LoginView):
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'resume/login.html'
 
     def get_success_url(self):
         return reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Авторизация")
+        return dict(list(context.items()) + list(c_def.items()))

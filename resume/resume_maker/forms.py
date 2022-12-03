@@ -9,6 +9,7 @@ class AddForm(forms.Form):
     name = forms.CharField(max_length=15, label="name")
     lastname = forms.CharField(max_length=20, label="lastname")
     birth_date = forms.DateField(label="birth_date")
+    # photo = forms.ImageField()
     phone_number = forms.SlugField(label="phone_number")
     email = forms.EmailField(max_length=40, label="email")
     skills = forms.SlugField(label="skills")

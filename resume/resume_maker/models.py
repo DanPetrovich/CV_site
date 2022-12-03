@@ -6,6 +6,7 @@ from django.urls import reverse
 class CVInfo(models.Model):  # TODO мб надо будет добавить в settings https://youtu.be/k1wZKx6nMjg
     name = models.CharField(max_length=15)
     lastname = models.CharField(max_length=20)
+    # photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
     birth_date = models.DateField()
     phone_number = models.TextField()  # TODO наверное, можно сделать лучше
     email = models.EmailField()
