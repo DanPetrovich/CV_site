@@ -28,7 +28,8 @@ urlpatterns = [
     path('register/', RegisterUser.as_view(), name='register'),
     path('logout/', logout_user, name='logout'),
     path('newform/', new_form, name='form'),
-    path('after_form/', after_form, name='after_form')
+    path('after_form/', after_form, name='after_form'),
+    path('get_pdf/', get_pdf, name='get_pdf')
 ]
 
 if settings.DEBUG:

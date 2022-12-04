@@ -1,0 +1,137 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CV Resume</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Civic - CV Resume">
+    <meta name="keywords" content="resume, civic, onepage, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="shortcut icon"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,600,600i,700" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link type="text/css" href="{% static 'resume/css/cv_style.css' %}" rel="stylesheet"/>
+
+
+    <!--	&lt;!&ndash;[if lt IE 9]>-->
+    <!--&lt;!&ndash;	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>&ndash;&gt;-->
+    <!--&lt;!&ndash;	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>&ndash;&gt;-->
+    <!--	<![endif]&ndash;&gt;-->
+
+</head>
+<body>
+
+<div class="home-five-style">
+    <!-- Header section start -->
+    <header class="header-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="site-logo">
+                        <h2><a href="#">We did it for you❤️</a></h2>
+                    </div>
+                </div>
+                <div class="col-md-7 text-md-right header-buttons">
+                    <a href="get_pdf" class="site-btn">Download CV</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header section end -->
+
+    <!-- Hero section start -->
+{% block personal%}
+    <section class="hero-section">
+        <div class="container-fluid text-center">
+            {% if info.photo %}
+                <img src="{{ info.photo.url }}" alt="">
+            {% endif %}
+            <div class="hero-text">
+                <h2>{{info.name}}</h2>
+                <h2>{{info.lastname}}</h2>
+            </div>
+        </div>
+    </section>
+    <!-- Hero section end -->
+{% endblock personal %}
+
+    <!-- Info section start -->
+    <div class="info-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-8 offset-xl-2 container-warp">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="hero-info">
+                                <ul>
+                                    <li><span>E-mail</span>{{info.email}}</li>
+                                    <li><span>Phone </span>{{info.phone_number}}</li>
+                                    <li><span>Date of Birth</span>{{info.birth_date}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Info section end -->
+
+    <!-- Resume section start -->
+    <section class="resume-section spad">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-10 col-xl-6 offset-lg-1 offset-xl-3 container-warp text-center p-xl-0">
+
+                    <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 container-warp">
+                        <!-- skill section start -->
+                        <section class="skill-section spad">
+                            <div class="section-title text-center">
+                                <h2>Skills</h2>
+                            </div>
+                            <h2>{{info.skills}}</h2>
+                        </section>
+                        <!-- skill section end -->
+
+                        <section class="work-section spad">
+                            <div class="section-title text-center">
+                                <h2>work_experience</h2>
+                            </div>
+                            <h2>{{info.work_experience}}</h2>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Footer section start -->
+<footer class="footer-section">
+    <div class="container text-center">
+        <div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+            All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                    href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distirbuted by <a
+                    href="https://themewagon.com" target="_blank">ThemeWagon</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        </div>
+    </div>
+</footer>
+<!-- Footer section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<!--	<script src="js/jquery-2.1.4.min.js"></script>-->
+<!--	<script src="js/bootstrap.min.js"></script>-->
+<!--	<script src="js/owl.carousel.min.js"></script>-->
+<!--	<script src="js/magnific-popup.min.js"></script>-->
+<!--	<script src="js/circle-progress.min.js"></script>-->
+<!--	<script src="js/main.js"></script>-->
+</body>
+</html>

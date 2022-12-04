@@ -5,20 +5,19 @@ from django.contrib.auth.models import User
 from .models import *
 
 
-class AddForm(forms.Form):
-    name = forms.CharField(max_length=15, label="name")
-    lastname = forms.CharField(max_length=20, label="lastname")
-    birth_date = forms.DateField(label="birth_date")
-    # photo = forms.ImageField()
-    phone_number = forms.SlugField(label="phone_number")
-    email = forms.EmailField(max_length=40, label="email")
-    skills = forms.SlugField(label="skills")
+class AddForm(forms.ModelForm):
+    class Meta:
+        model = CVInfo
+        fields = ['name', 'lastname', 'photo', 'birth_date', 'phone_number', 'email', 'work_experience', 'skills']
 
     def clean_phone(self):
         phone = self.clean_data('phone_number')
         if len(phone) != 11:
             raise ValidationError("Некорректный номер телефона")
         return phone
+
+    def get_id(self):
+        return self.Meta.model.id
 
 
 class RegisterUserForm(UserCreationForm):
@@ -35,4 +34,3 @@ class RegisterUserForm(UserCreationForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-
