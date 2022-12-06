@@ -5,21 +5,25 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, PackageLoader
 import pdfkit
+import importlib.util
 
 from .models import *
 from .forms import *
 from .utils import *
 
+# package_name = 'resume'
+# spec = importlib.util.find_spec(package_name)
+
 
 def main_page(request):
     context = {'menu': menu, 'title': 'Main page'}
-    return render(request, 'resume/index.html', context=context)
+    return render(request, 'resume/templates/index.html', context=context)
 
 
 def about(request):
-    return render(request, 'resume/about.html', {'menu': menu, 'title': 'О сайте'})
+    return render(request, 'resume/templates/about.html', {'menu': menu, 'title': 'О сайте'})
 
 
 def new_form(request):
@@ -30,15 +34,14 @@ def new_form(request):
             return redirect('after_form')
     else:
         form = AddForm()
-    return render(request, 'resume/newform.html', {'form': form})
+    return render(request, 'resume/templates/newform.html', {'form': form})
 
 
 def after_form(request):
-    form = CVInfo.objects.first().pk
+    form = CVInfo.objects.last().pk
     info = CVInfo.objects.get(pk=form)
-    print(info)
     context = {'info': info, 'menu': menu}
-    return render(request, 'resume/cv_template.html', context=context)
+    return render(request, 'resume/templates/cv_template.html', context=context)
 
 
 def logout_user(request):
@@ -48,7 +51,7 @@ def logout_user(request):
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
-    template_name = 'resume/register.html'
+    template_name = 'resume/templates/register.html'
     success_url = reverse_lazy('login')
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -64,7 +67,7 @@ class RegisterUser(DataMixin, CreateView):
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
-    template_name = 'resume/login.html'
+    template_name = 'resume/templates/login.html'
 
     def get_success_url(self):
         return reverse_lazy('home')
@@ -76,7 +79,8 @@ class LoginUser(DataMixin, LoginView):
 
 
 def get_pdf(request):
-    env = Environment(loader=FileSystemLoader('.'))
-    template = env.get_template("pdf_template.html")
-    pdf_template = template.render({'menu': menu})
+    form = CVInfo.objects.first().pk
+    info = CVInfo.objects.get(pk=form)
+    context = {'info': info, 'menu': menu}
 
+    return render(request, 'resume/templates/get_pdf.html', context=context)
